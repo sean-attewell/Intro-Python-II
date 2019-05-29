@@ -1,4 +1,6 @@
 from room import Room
+from player import Player
+from os import system
 
 # Declare all the rooms
 
@@ -38,6 +40,69 @@ room['treasure'].s_to = room['narrow']
 #
 
 # Make a new player object that is currently in the 'outside' room.
+system('cls')
+print("\n\n*****************************************************************************")
+print("**************** T H O R B E N ' S    D U N G E O N *************************")
+print("*****************************************************************************\n")
+print("""Welcome to Thorben's Dungeon!""")
+new_name = input(f"Please enter your name > ")
+
+p = Player(new_name, room["outside"])
+
+input(f"If ye dare enter, {p.name} ... press enter > ")
+system('cls')
+
+playerOptions = {
+    "n": "North",
+    "e": "East",
+    "s": "South",
+    "w": "West",
+    "q": "Quit"
+}
+selection = ""
+
+# While we have not selected Quit
+# +1 because we added quit
+while selection != "q":
+
+    print(p.current_room, "\n\n")
+
+    selection = input(
+        "### ACTIONS ###\nMove North: n\nMove East: e\nMove South: s\nMove West: w\nQuit Game: q\n> ")
+
+    # error handler using try
+    try:
+        move_choice = f"you moved to the {playerOptions[selection]}\n"
+
+        if selection == "n":
+            p.current_room = p.current_room.n_to
+            system("cls")
+            print(move_choice)
+
+        elif selection == "e":
+            p.current_room = p.current_room.e_to
+            system("cls")
+            print(move_choice)
+
+        elif selection == "s":
+            p.current_room = p.current_room.s_to
+            system("cls")
+            print(move_choice)
+
+        elif selection == "w":
+            p.current_room = p.current_room.w_to
+            system("cls")
+            print(move_choice)
+
+        else:
+            print("GAME OVER\n\nThank you for playing!")
+    except AttributeError:
+        system("cls")
+        print("There is no way through in that direction, please try again.\n")
+    except KeyError:
+        system("cls")
+        print("Invalid selection. Please choose from the options provided\n")
+
 
 # Write a loop that:
 #
