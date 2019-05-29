@@ -1,3 +1,4 @@
+from sys import exit
 from room import Room
 from player import Player
 from os import system
@@ -42,8 +43,11 @@ room['treasure'].s_to = room['narrow']
 # Make a new player object that is currently in the 'outside' room.
 system('cls')
 print("\n\n*****************************************************************************")
-print("**************** T H O R B E N ' S    D U N G E O N *************************")
+print(
+    "**************** T H O R B E N ' S    D U N G E O N *************************")
 print("*****************************************************************************\n")
+print("\n~sPooKy MuSic plAys~\n\n")
+
 print("""Welcome to Thorben's Dungeon!""")
 new_name = input(f"Please enter your name > ")
 
@@ -68,11 +72,11 @@ while selection != "q":
     print(p.current_room, "\n\n")
 
     selection = input(
-        "### ACTIONS ###\nMove North: n\nMove East: e\nMove South: s\nMove West: w\nQuit Game: q\n> ")
+        "### ACTIONS ###\nMove North: n\nMove East: e\nMove South: s\nMove West: w\nQuit Game: q\n\n> ")
 
     # error handler using try
     try:
-        move_choice = f"you moved to the {playerOptions[selection]}\n"
+        move_choice = f"\033[0;32myou moved to the {playerOptions[selection]}.\033[0m\n"
 
         if selection == "n":
             p.current_room = p.current_room.n_to
@@ -95,13 +99,16 @@ while selection != "q":
             print(move_choice)
 
         else:
-            print("GAME OVER\n\nThank you for playing!")
+            print("GAME OVER\n\nThank you for playing!\n")
+            exit(1)
     except AttributeError:
         system("cls")
-        print("There is no way through in that direction, please try again.\n")
+        print(
+            "\033[31mThere is no way through in that direction, please try again.\033[m\n")
     except KeyError:
         system("cls")
-        print("Invalid selection. Please choose from the options provided\n")
+        print(
+            "\033[31mInvalid selection, Please choose from the options provided.\033[m\n")
 
 
 # Write a loop that:
