@@ -2,7 +2,7 @@ from sys import exit
 from room import Room
 from player import Player
 from item import Item
-from os import system
+from os import system, name
 
 # Declare all the rooms
 
@@ -42,8 +42,16 @@ room['treasure'].s_to = room['narrow']
 # Main
 #
 
+
+def clearScreen():
+    if name == "nt":
+        _ = system('cls')
+    else:
+        _ = system('clear')
+
+
 # Make a new player object that is currently in the 'outside' room.
-system('cls')
+clearScreen()
 print("\n\n*****************************************************************************")
 print(
     "**************** T H O R B E N ' S    D U N G E O N *************************")
@@ -57,7 +65,7 @@ p = Player(new_name, room["outside"], [
            Item("Letter", """A reminder of home""")])
 
 input(f"If ye dare enter, {p.name} ... press enter > ")
-system('cls')
+clearScreen()
 
 playerOptions = {
     "n": "North",
@@ -79,7 +87,7 @@ while selection != "q":
     print(p.current_room, "\n\n")
 
     selection = input(
-        "### ACTIONS ###\nMove north, south, east or west: n, s, e, w\nCheck inventory: i\nLook for items: l\nTake item: t [item]\nQuit Game: q\n\n> ").split(" ")
+        "### ACTIONS ###\nMove north, south, east or west: n, s, e, w\nCheck inventory: i\nLook for items: l\nTake item: t [item]\nDrop item: d [item]\nQuit Game: q\n\n> ").split(" ")
     if len(selection) == 1:
         verb = selection[0]
     elif len(selection) == 2:
@@ -93,40 +101,34 @@ while selection != "q":
 
         if verb == "n":
             p.current_room = p.current_room.n_to
-            system("cls")
+            clearScreen()
             print(move_choice)
 
         elif verb == "e":
             p.current_room = p.current_room.e_to
-            system("cls")
+            clearScreen()
             print(move_choice)
 
         elif verb == "s":
             p.current_room = p.current_room.s_to
-            system("cls")
+            clearScreen()
             print(move_choice)
 
         elif verb == "w":
             p.current_room = p.current_room.w_to
-            system("cls")
+            clearScreen()
             print(move_choice)
 
         elif verb == "i":
-            system("cls")
+            clearScreen()
             p.listInventory()
 
         elif verb == "l":
-            system("cls")
+            clearScreen()
             p.current_room.listItems()
 
         elif verb == "t":
-            system("cls")
-            # if item in p.current_room.items_in_room.name:
-            #     p.current_room.removeItem(item)
-            #     p.addItem(item)
-            #     print(f"You took the {item}")
-            # else:
-            #     print(f"\033[31mThere is no {item} to take\033[m\n")
+            clearScreen()
             itemsFound = 0
             for i in p.current_room.items_in_room:
                 if (i.name == item):
@@ -136,20 +138,31 @@ while selection != "q":
                     i.onTake()
             if itemsFound > 0:
                 pass
-                # print(
-                #     f"\033[0;32mYou took the {item} and put it in your bag\033[0m\n")
             else:
                 print(f"\033[31mThere is no {item} to take\033[m\n")
+
+        elif verb == "d":
+            clearScreen()
+            itemsFound = 0
+            for i in p.inventory:
+                if (i.name == item):
+                    itemsFound += 1
+                    p.removeItem(i)
+                    p.current_room.addItem(i)
+            if itemsFound > 0:
+                pass
+            else:
+                print(f"\033[31mYou do not have a {item} to drop\033[m\n")
         else:
-            system("cls")
+            clearScreen()
             print("GAME OVER\n\nThank you for playing!\n")
             exit(1)
     except AttributeError:
-        system("cls")
+        clearScreen()
         print(
             "\033[31mThere is no way through in that direction, please try again.\033[m\n")
     except KeyError:
-        system("cls")
+        clearScreen()
         print(
             "\033[31mInvalid selection, Please choose from the options provided.\033[m\n")
 

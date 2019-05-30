@@ -19,3 +19,6 @@ class Player:
 
     def addItem(self, item):
         self.inventory.append(item)
+
+    def removeItem(self, item):
+        self.inventory.remove(item)
